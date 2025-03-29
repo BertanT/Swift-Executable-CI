@@ -55,8 +55,14 @@ jobs:
       LINUX_SDK_URL: ${{ inputs.linux_sdk_url }}
       LINUX_SDK_CHECKSUM: ${{ inputs.linux_sdk_checksum }}
     steps:
+      - name: Checkout scripts repository.
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: bertan/SwiftPM-Cross-Comp-CI
+          path: .cross-comp-ci
+        
       - name: Validating repository variables.
-        run: .github/workflows/scripts/input-validation.sh
+        run: .cross-comp-ci/.github/workflows/scripts/input-validation.sh
 
       - name: Cloning repository.
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -78,7 +84,7 @@ jobs:
         run: swift build --configuration release --arch x86_64
       
       - name: Combining macOS builds into a single universal binary.
-        run:  .github/workflows/scripts/macos-universal-binary.sh
+        run:  .cross-comp-ci/.github/workflows/scripts/macos-universal-binary.sh
 
       - name: Building release binary for Linux ARM64.
         run: swift build --configuration release --swift-sdk aarch64-swift-linux-musl
@@ -87,16 +93,16 @@ jobs:
         run: swift build --configuration release --swift-sdk x86_64-swift-linux-musl
 
       - name: Packaging all binaries into seperate tarballs.
-        run: .github/workflows/scripts/pack-builds.sh
+        run: .cross-comp-ci/.github/workflows/scripts/pack-builds.sh
 
       - name: Updating the changelog for the new release and pushing changes.
-        run: .github/workflows/scripts/update-changelog.sh
+        run: .cross-comp-ci/.github/workflows/scripts/update-changelog.sh
         
       - name: Preparing release notes.
-        run: .github/workflows/scripts/prepare-release-notes.sh
+        run: .cross-comp-ci/.github/workflows/scripts/prepare-release-notes.sh
 
       - name: Pushing the latest changes and the new tag to the repository.
-        run: .github/workflows/scripts/push-release.sh
+        run: .cross-comp-ci/.github/workflows/scripts/push-release.sh
 
       - name: Publishing the new release.
         uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda

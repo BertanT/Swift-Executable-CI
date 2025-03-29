@@ -18,7 +18,7 @@ This CI pipeline is specifically intended for cross-platfrom SwiftPM projects wi
 ## How to use
 You can call this just like any other reusable Github Workflow. For more information on how, [check out this page](https://docs.github.com/en/actions/learn-github-actions/reusing-workflows).
 
-For a reference configuration, [take a look at the WatchDuck workflow configuration!](https://github.com/BertanT/WatchDuck/blob/main/.github/workflows/build-release.yml)
+For a reference configuration, [take a look at the WatchDuck workflow configuration!](https://github.com/BertanT/WatchDuck/blob/main/.cross-comp-ci/.github/workflows/build-release.yml)
 
 ## What's Next?
 * Will extend the CI pipeline to generate Homebrew and APT package releases.
