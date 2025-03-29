@@ -58,7 +58,7 @@ jobs:
       - name: Checkout scripts repository.
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          repository: bertan/SwiftPM-Cross-Comp-CI
+          repository: BertanT/SwiftPM-Cross-Comp-CI
           path: .cross-comp-ci
         
       - name: Validating repository variables.
