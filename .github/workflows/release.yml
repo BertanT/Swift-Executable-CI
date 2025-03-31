@@ -64,7 +64,7 @@ jobs:
         with:
           repository: BertanT/SwiftPM-Cross-Comp-CI
           path: ci-scripts
-          sparse-checkout: .github/workflows/scripts
+          sparse-checkout: ci-scripts
           sparse-checkout-cone-mode: false
           
       - name: "Debug"
