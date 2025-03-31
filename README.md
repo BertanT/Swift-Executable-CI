@@ -26,4 +26,4 @@ For more information on how, [check out this page](https://docs.github.com/en/ac
 ## What's Next?
 * Will extend the CI pipeline to generate Homebrew and APT package releases.
 * The changelog updater will be optional, as some projects may not want to use it.
-* ... let me know in the [Issues](http://github.com/BertanT/SwiftPM-Cross-Comp-CI/Issues/) page if you have any other ideas or suggestions!
+* ... let me know in the [Issues](https://github.com/BertanT/SwiftPM-Cross-Comp-CI/issues) page if you have any other ideas or suggestions!
