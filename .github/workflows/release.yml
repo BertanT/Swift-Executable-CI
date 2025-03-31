@@ -55,7 +55,7 @@ jobs:
       LINUX_SDK_URL: ${{ inputs.linux_sdk_url }}
       LINUX_SDK_CHECKSUM: ${{ inputs.linux_sdk_checksum }}
     steps:
-      - name: Checkout scripts repository.
+      - name: Fetch script dependencies.
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: BertanT/SwiftPM-Cross-Comp-CI
@@ -66,7 +66,13 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
-
+      - name: Print files in directory for debug.
+        run: |
+          ls -la
+          ls -la ..
+          ls -la $OLDPWD
+          exit 1
+      
       - name: Validating repository variables.
         run: ci-scripts/input-validation.sh
 
