@@ -16,9 +16,12 @@ This CI pipeline is specifically intended for cross-platfrom SwiftPM projects wi
 * Creates sha256 hash files along the release artifacts, also adding them descriptibely to the release notes
 
 ## How to use
-You can call this just like any other reusable Github Workflow. For more information on how, [check out this page](https://docs.github.com/en/actions/learn-github-actions/reusing-workflows).
+You can call this just like any other reusable Github Workflow, with some required input parameters. **Just make sure that there is no file or directory named `ci-scripts` in the root directory of your project,** as this worklow will sparse check out the bash script dependencies into that directory at the root of your repository!
 
-For a reference configuration, [take a look at the WatchDuck workflow configuration!](https://github.com/BertanT/WatchDuck/blob/main/.cross-comp-ci/.github/workflows/build-release.yml)
+For more information on how, [check out this page](https://docs.github.com/en/actions/learn-github-actions/reusing-workflows).
+
+[Click here for a reference configuration of the *Build* task.](https://github.com/BertanT/WatchDuck/blob/main/.github/workflows/build.yml)
+[Click here for a reference configuration of the *Release* task.](https://github.com/BertanT/WatchDuck/blob/main/.github/workflows/build.yml)
 
 ## What's Next?
 * Will extend the CI pipeline to generate Homebrew and APT package releases.
