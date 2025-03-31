@@ -65,13 +65,7 @@ jobs:
           repository: BertanT/SwiftPM-Cross-Comp-CI
           path: ci-scripts
           sparse-checkout: .github/workflows/scripts
-      - name: Print files in directory for debug.
-        run: |
-          ls -la
-          ls -la ..
-          ls -la $OLDPWD
-          exit 1
-      
+
       - name: Validating repository variables.
         run: ci-scripts/input-validation.sh
 
