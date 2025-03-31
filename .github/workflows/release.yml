@@ -66,11 +66,6 @@ jobs:
           path: ci-scripts
           sparse-checkout: '*.sh'
           sparse-checkout-cone-mode: false
-          
-      - name: "Debug"
-        run: |
-          ls -la
-          ls -la ci-scripts
 
       - name: Validating repository variables.
         run: ci-scripts/input-validation.sh
