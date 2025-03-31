@@ -65,6 +65,10 @@ jobs:
           repository: BertanT/SwiftPM-Cross-Comp-CI
           path: ci-scripts
           sparse-checkout: .github/workflows/scripts
+      - name: "Debug"
+        run: |
+          ls -la
+          ls -la ci-scripts
 
       - name: Validating repository variables.
         run: ci-scripts/input-validation.sh
