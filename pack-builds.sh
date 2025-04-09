@@ -24,23 +24,15 @@ cd .build/macos-universal/release
 tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-macos-universal.tar.gz" .
 cd -
 
-# Define an array of target directories and their corresponding tarball names
-declare -A targets=(
-    [".build/aarch64-swift-linux-musl/release"]="linux-aarch64"
-    [".build/x86_64-swift-linux-musl/release"]="linux-x86_64"
-)
+# Package Linux aarch64 binary
+cd .build/aarch64-swift-linux-musl/release
+tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-aarch64.tar.gz" ${EXEC_NAME} *.resources
+cd -
 
-# Loop through the targets and package binaries
-for dir in "${!targets[@]}"; do
-    cd "$dir"
-    tarball_name="${targets[$dir]}"
-    if compgen -G "*.resources" > /dev/null; then
-        tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-${tarball_name}.tar.gz" ${EXEC_NAME} *.resources
-    else
-        tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-${tarball_name}.tar.gz" ${EXEC_NAME}
-    fi
-    cd -
-done
+# Package Linux x86_64 binary
+cd .build/x86_64-swift-linux-musl/release
+tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-x86_64.tar.gz" ${EXEC_NAME} *.resources
+cd -
 
 # Loop through every file in the tarballs directory and create a SHA 256 sum for each file
 cd .build/tarballs
