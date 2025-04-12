@@ -36,6 +36,11 @@ on:
         type: string
         required: true
         description: "Tarball Checksum for the static Linux SDK."
+      run-swiftlint:
+        type: boolean
+        required: false
+        default: false
+        description: "If true, the workflow will run SwiftLint before building. Make sure you have the SwiftLint command tool plugin installed!"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -75,6 +80,10 @@ jobs:
         uses: swift-actions/setup-swift@96e1dd40c7aa863eafac5979fd597972980a64c7
         with:
           swift-version: "${{ env.SWIFT_TOOLCHAIN_VERSION }}"
+      
+      - name: Linting code with SwiftLint.
+        if: ${{ inputs.run-swiftlint }}
+        run: swift package plugin --allow-writing-to-package-directory swiftlint lint --progress
 
       - name: Installing the static Swift SDK for Linux.
         run: swift sdk install $LINUX_SDK_URL --checksum $LINUX_SDK_CHECKSUM
