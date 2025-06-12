@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: BertanT/SwiftPM-Cross-Comp-CI
-          ref: switch-to-swiftly
+          ref: main
           path: ci-scripts-${{ github.run_id }}
           sparse-checkout: '*.sh'
           sparse-checkout-cone-mode: false
