@@ -36,3 +36,7 @@ fi
 # Create and push the new tag
 git tag "${NEW_TAG}"
 git push --atomic origin "${NEW_TAG}"
+
+# Touch the release notes file, this is required even without a changelog since the release action expects a file input.
+# This simpler solution than intordutcing complex conditional changes to the workflow yaml files.
+touch "release-notes-${GITHUB_RUN_ID}.md"
