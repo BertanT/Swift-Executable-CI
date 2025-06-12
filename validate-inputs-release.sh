@@ -1,6 +1,6 @@
 #!/bin/bash
 #################################################################################################################################
-# input-validation.sh
+# validate-inputs-release.sh
 # Created on 03/28/2025
 #
 # Copyright (C) 2025 Mehmet Bertan Tarakcioglu, Under the MIT License

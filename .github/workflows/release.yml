@@ -74,7 +74,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Validating repository variables.
-        run: ci-scripts-${{ github.run_id }}/input-validation-release.sh
+        run: ci-scripts-${{ github.run_id }}/validate-inputs-release.sh
 
       - name: Setting up Swift Toolchain Version ${{ env.SWIFT_TOOLCHAIN_VERSION }}.
         uses: swift-actions/setup-swift@96e1dd40c7aa863eafac5979fd597972980a64c7
@@ -106,11 +106,8 @@ jobs:
       - name: Packaging all binaries into seperate tarballs.
         run: ci-scripts-${{ github.run_id }}/pack-builds.sh
 
-      - name: Updating the changelog for the new release and pushing changes.
-        run: ci-scripts-${{ github.run_id }}/update-changelog.sh
-        
-      - name: Preparing release notes.
-        run: ci-scripts-${{ github.run_id }}/prepare-release-notes.sh
+      - name: Updating the changelog and preparing release notes.
+        run: ci-scripts-${{ github.run_id }}/prep-release-notes.sh
 
       - name: Pushing the latest changes and the new tag to the repository.
         run: ci-scripts-${{ github.run_id }}/push-release.sh

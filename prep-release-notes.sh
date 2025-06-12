@@ -19,6 +19,12 @@
 # Exit bash script on error
 set -eo pipefail
 
+# Check if a CHANGELOG file exists (case-insensitive, with or without extension)
+if ! ls | grep -i "^changelog\(\.md\|\.\w*\)\{0,1\}$" > /dev/null 2>&1; then
+    echo "No CHANGELOG file found. "
+    exit 0
+fi
+
 # Check if any tags exist
 if git tag -l | grep -q .; then
     # Get previous tag if it exists
@@ -47,3 +53,7 @@ sed -i '' "s|\[unreleased\]: .*|[unreleased]: ${REPO_URL}/compare/${NEW_TAG}...H
 
 # Only add a comparison link if this isn't the first tag
 echo -e "\n${released_tag}" >> CHANGELOG.md
+
+# Extract release notes from the changelog and put them into RELEASE_NOTES.md
+echo -e "## Release Notes" > RELEASE_NOTES.md
+awk "/## \\[${NEW_TAG}\\]/{flag=1;next} /## \\[/&&flag{flag=0} flag" CHANGELOG.md | sed '/^\[.*\]: /d' >> RELEASE_NOTES.md
