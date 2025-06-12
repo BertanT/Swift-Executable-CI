@@ -21,7 +21,7 @@ set -eo pipefail
 
 # Create an empty release notes file, this is required even without a changelog since the release action expects a file input.
 # This simpler solution than intordutcing complex conditional changes to the workflow yaml files.
-touch release-notes-${{ GITHUB_RUN_ID }}.md
+touch "release-notes-${ GITHUB_RUN_ID }.md"
 
 # Find the changelog file and store its name in a variable
 CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
