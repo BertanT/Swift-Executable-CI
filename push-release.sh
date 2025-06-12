@@ -15,7 +15,7 @@
 # It wil then create the new tag and also push it.
 
 # Exit bash script on error
-set -e
+set -eo pipefail
 
 # Commit and push the updated changelog
 git config user.name "github-actions[bot]"

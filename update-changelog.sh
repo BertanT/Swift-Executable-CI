@@ -17,7 +17,7 @@
 # WARNING: For this to work, the changelog must follow the Keep a Changelog format with an 'Unreleased' section!
 
 # Exit bash script on error
-set -e
+set -eo pipefail
 
 # Check if any tags exist
 if git tag -l | grep -q .; then

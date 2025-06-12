@@ -16,7 +16,7 @@
 # This script validates and sanitizes the inputs for the workflow to harden against malicious input.
 
 # Exit on error and disallow unset variables
-set -eu
+set -euo pipefail
 
 if [[ -z "${SWIFT_TOOLCHAIN_VERSION:-}" || -z "${LINUX_SDK_URL:-}" ]]; then
   echo "Missing Swift toolchain or SDK URL"

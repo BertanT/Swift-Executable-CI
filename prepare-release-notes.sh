@@ -14,7 +14,7 @@
 # This script prepares release notes by extracting them from the changelog and obtaining tarball checksums.
 
 # Exit bash script on error
-set -e
+set -eo pipefail
 
 # Extract release notes from the changelog and put them into RELEASE_NOTES.md
 echo -e "## Release Notes" > RELEASE_NOTES.md
