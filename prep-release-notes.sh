@@ -21,7 +21,7 @@ set -eo pipefail
 
 # Create an empty release notes file, this is required even without a changelog since the release action expects a file input.
 # This simpler solution than intordutcing complex conditional changes to the workflow yaml files.
-touch release-notes-${{ github.run_id }}.md
+touch release-notes-${{ GITHUB_RUN_ID }}.md
 
 # Find the changelog file and store its name in a variable
 CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
@@ -62,5 +62,5 @@ sed -i '' "s|\[unreleased\]: .*|[unreleased]: ${REPO_URL}/compare/${NEW_TAG}...H
 echo -e "\n${released_tag}" >> "$CHANGELOG_FILE"
 
 # Extract release notes from the changelog and put them into a temporary markdown file
-echo -e "## Release Notes" > release-notes-${{ github.run_id }}.md
-awk "/## \\[${NEW_TAG}\\]/{flag=1;next} /## \\[/&&flag{flag=0} flag" "$CHANGELOG_FILE" | sed '/^\[.*\]: /d' >> release-notes-${{ github.run_id }}.md
+echo -e "## Release Notes" > release-notes-${{ GITHUB_RUN_ID }}.md
+awk "/## \\[${NEW_TAG}\\]/{flag=1;next} /## \\[/&&flag{flag=0} flag" "$CHANGELOG_FILE" | sed '/^\[.*\]: /d' >> release-notes-${{ GITHUB_RUN_ID }}.md
