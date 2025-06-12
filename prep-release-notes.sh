@@ -20,15 +20,13 @@
 set -eo pipefail
 
 # Find the changelog file and store its name in a variable
-CHANGELOG_FILE=$(ls | grep -i "^changelog\(\.md\|\.\w*\)\{0,1\}$" | head -1)
+CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
 
 # Check if a CHANGELOG file exists
 if [ -z "$CHANGELOG_FILE" ]; then
     echo "No CHANGELOG file found."
     exit 0
 fi
-
-echo "Using changelog file: $CHANGELOG_FILE"
 
 # Check if any tags exist
 if git tag -l | grep -q .; then
