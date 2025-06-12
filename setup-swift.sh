@@ -19,15 +19,15 @@ set -eo pipefail
 # Install Swiftly
 curl -O https://download.swift.org/swiftly/darwin/swiftly.pkg
 installer -pkg swiftly.pkg -target CurrentUserHomeDirectory
-ls -la ~
-~/.swiftly/bin/swiftly init --assume-yes --no-modify-profile --skip-install --quiet-shell-followup
+~/.swiftly/bin/swiftly init --assume-yes --skip-install --quiet-shell-followup
 bash ~/.swiftly/env.sh
-
 
 echo "SWIFTLY_HOME_DIR=${SWIFTLY_HOME_DIR}" >>"${GITHUB_ENV}"
 echo "SWIFTLY_BIN_DIR=${SWIFTLY_BIN_DIR}" >>"${GITHUB_ENV}"
 echo "${SWIFTLY_BIN_DIR}" >>"${GITHUB_PATH}"
 hash -r
+
+env
 
 # Install the requested version of Swift
 swiftly install "${SWIFT_VERSION}"
