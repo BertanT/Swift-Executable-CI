@@ -31,9 +31,6 @@ if find . -maxdepth 1 -type f -iname "changelog*" | grep -q .; then
         git commit -m "Update changelog for release ${NEW_TAG}"
         git push --atomic origin "HEAD:${TARGET_BRANCH}"
     fi
-
-  git commit -m "Update changelog for release ${NEW_TAG}"
-  git push --atomic origin "HEAD:${TARGET_BRANCH}"
 fi 
 
 # Create and push the new tag
