@@ -21,7 +21,7 @@ set -eo pipefail
 
 # Check if a CHANGELOG file exists (case-insensitive, with or without extension)
 if ! ls | grep -i "^changelog\(\.md\|\.\w*\)\{0,1\}$" > /dev/null 2>&1; then
-    echo "No CHANGELOG file found. "
+    echo "No CHANGELOG file found."
     exit 0
 fi
 
