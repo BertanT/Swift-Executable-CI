@@ -29,5 +29,5 @@ echo "${SWIFTLY_BIN_DIR}" >>"${GITHUB_PATH}"
 hash -r
 
 # Install the requested version of Swift
-swiftly install "${SWIFT_VERSION}"
-swiftly use --global-default "${SWIFT_VERSION}"
+swiftly install "${SWIFT_TOOLCHAIN_VERSION}"
+swiftly use --global-default "${SWIFT_TOOLCHAIN_VERSION}"
