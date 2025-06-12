@@ -41,6 +41,11 @@ on:
         required: false
         default: false
         description: "If true, the workflow will run SwiftLint before building. Make sure you have the SwiftLint command tool plugin installed!"
+      update-changelog:
+        type: boolean
+        required: false
+        default: false
+        description: "*** Only supported format is keepachangelog.org!!! *** If true, the workflow will use your changelog file to prepare release and update itself!"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -105,6 +110,7 @@ jobs:
         run: ci-scripts-${{ github.run_id }}/pack-builds.sh
 
       - name: Updating the changelog and preparing release notes.
+        if: ${{ inputs.update-changelog }}
         run: ci-scripts-${{ github.run_id }}/prep-release-notes.sh
 
       - name: Pushing the latest changes and the new tag to the repository.
