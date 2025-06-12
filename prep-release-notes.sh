@@ -53,7 +53,7 @@ fi
 sed -i '' "s/## \[Unreleased\]/## [${NEW_TAG}] - $(date +'%Y-%m-%d')/g" "$CHANGELOG_FILE"
 
 # Add a new 'Unreleased' section
-sed -i '' "0,/## \[/s//## [Unreleased]\n\n## [/" "$CHANGELOG_FILE"
+sed -i '' $'s/## \\[/## [Unreleased]\\\n\\\n## [/' "$CHANGELOG_FILE"
 
 # Replace the 'Unreleased' link to compare with the new tag
 sed -i '' "s|\[unreleased\]: .*|[unreleased]: ${REPO_URL}/compare/${NEW_TAG}...HEAD|I" "$CHANGELOG_FILE"
