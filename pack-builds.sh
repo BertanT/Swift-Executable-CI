@@ -14,7 +14,7 @@
 # This script takes all the compiled binaries and packages them into tarballs, ready for release and distribution!
 
 # Exit bash script on error
-set -e
+set -eo pipefail
 
 # Create a directory to store the tarballs
 mkdir -p .build/tarballs
@@ -26,12 +26,20 @@ cd -
 
 # Package Linux aarch64 binary
 cd .build/aarch64-swift-linux-musl/release
-tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-aarch64.tar.gz" ${EXEC_NAME} *.resources
+if [ -d "*.resources" ]; then
+    tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-aarch64.tar.gz" ${EXEC_NAME} *.resources
+else
+    tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-aarch64.tar.gz" ${EXEC_NAME}
+fi
 cd -
 
 # Package Linux x86_64 binary
 cd .build/x86_64-swift-linux-musl/release
-tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-x86_64.tar.gz" ${EXEC_NAME} *.resources
+if [ -d "*.resources" ]; then
+    tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-x86_64.tar.gz" ${EXEC_NAME} *.resources
+else
+    tar -czf "../../../.build/tarballs/${EXEC_NAME}-${NEW_TAG}-linux-x86_64.tar.gz" ${EXEC_NAME}
+fi
 cd -
 
 # Loop through every file in the tarballs directory and create a SHA 256 sum for each file

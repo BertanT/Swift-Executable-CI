@@ -17,7 +17,20 @@
 # WARNING: For this to work, the changelog must follow the Keep a Changelog format with an 'Unreleased' section!
 
 # Exit bash script on error
-set -e
+set -eo pipefail
+
+# Create an empty release notes file, this is required even without a changelog since the release action expects a file input.
+# This simpler solution than intordutcing complex conditional changes to the workflow yaml files.
+touch "release-notes-${GITHUB_RUN_ID}.md"
+
+# Find the changelog file and store its name in a variable
+CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
+
+# Check if a CHANGELOG file exists
+if [ -z "$CHANGELOG_FILE" ]; then
+    echo "No CHANGELOG file found."
+    exit 0
+fi
 
 # Check if any tags exist
 if git tag -l | grep -q .; then
@@ -37,13 +50,17 @@ else
 fi
 
 # Replace 'Unreleased' with the new tag and add a date
-sed -i '' "s/## \[Unreleased\]/## [${NEW_TAG}] - $(date +'%Y-%m-%d')/g" CHANGELOG.md
-          
+sed -i '' "s/## \[Unreleased\]/## [${NEW_TAG}] - $(date +'%Y-%m-%d')/g" "$CHANGELOG_FILE"
+
 # Add a new 'Unreleased' section
-sed -i '' "0,/## \[/s//## [Unreleased]\n\n## [/" CHANGELOG.md
+sed -i '' $'s/## \\[/## [Unreleased]\\\n\\\n## [/' "$CHANGELOG_FILE"
 
 # Replace the 'Unreleased' link to compare with the new tag
-sed -i '' "s|\[unreleased\]: .*|[unreleased]: ${REPO_URL}/compare/${NEW_TAG}...HEAD|I" CHANGELOG.md
+sed -i '' "s|\[unreleased\]: .*|[unreleased]: ${REPO_URL}/compare/${NEW_TAG}...HEAD|I" "$CHANGELOG_FILE"
 
 # Only add a comparison link if this isn't the first tag
-echo -e "\n${released_tag}" >> CHANGELOG.md
+echo -e "\n${released_tag}" >> "$CHANGELOG_FILE"
+
+# Extract release notes from the changelog and put them into a temporary markdown file
+echo -e "## Release Notes" > "release-notes-${GITHUB_RUN_ID}.md"
+awk "/## \\[${NEW_TAG}\\]/{flag=1;next} /## \\[/&&flag{flag=0} flag" "$CHANGELOG_FILE" | sed '/^\[.*\]: /d' >> "release-notes-${GITHUB_RUN_ID}.md"

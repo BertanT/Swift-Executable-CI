@@ -59,13 +59,13 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: BertanT/SwiftPM-Cross-Comp-CI
-          ref: 6c465bc50013bc45d2dc2ae136869ded7085be4e
-          path: ci-scripts
+          ref: june25-cleanup
+          path: ci-scripts-${{ github.run_id }}
           sparse-checkout: '*.sh'
           sparse-checkout-cone-mode: false
 
       - name: Validating repository variables.
-        run: ci-scripts/input-validation-build.sh
+        run: ci-scripts-${{ github.run_id }}/validate-inputs-build.sh
 
       - name: Setting up Swift Toolchain Version ${{ env.SWIFT_TOOLCHAIN_VERSION }}.
         uses: swift-actions/setup-swift@96e1dd40c7aa863eafac5979fd597972980a64c7

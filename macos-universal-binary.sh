@@ -14,7 +14,7 @@
 # This script combines macOS build binaries and generates a singel universal binary in its own build directory.
 
 # Exit bash script on error
-set -e
+set -eo pipefail
 
 # Create a new directory to contain the universal binary build
 mkdir -p ".build/macos-universal/release"
@@ -24,4 +24,6 @@ lipo -create ".build/arm64-apple-macosx/release/${EXEC_NAME}" ".build/x86_64-app
     -output ".build/macos-universal/release/${EXEC_NAME}"
 
 # Copy the universal binary and its bundle to its new home!
-cp -r ".build/arm64-apple-macosx/release/"*.bundle ".build/macos-universal/release"
+if [ -n "$(find .build/arm64-apple-macosx/release/ -name '*.bundle' 2>/dev/null)" ]; then
+    cp -r ".build/arm64-apple-macosx/release/"*.bundle ".build/macos-universal/release"
+fi
