@@ -29,7 +29,7 @@ on:
         type: string
         required: true
         description: "Tarball Checksum for the static Linux SDK."
-      run-swiftlint:
+      run_swiftlint:
         type: boolean
         required: false
         default: false
