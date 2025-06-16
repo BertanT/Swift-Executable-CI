@@ -86,7 +86,7 @@ jobs:
       
       - name: Linting code with SwiftLint.
         if: ${{ inputs.run-swiftlint }}
-        run: swift package plugin --allow-writing-to-package-directory swiftlint lint --progress
+        run: ci-scripts-${{ github.run_id }}/run-swiftlint.sh
 
       - name: Installing the static Swift SDK for Linux.
         run: swift sdk install $LINUX_SDK_URL --checksum $LINUX_SDK_CHECKSUM

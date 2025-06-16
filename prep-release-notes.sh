@@ -1,7 +1,7 @@
 #!/bin/bash
 #################################################################################################################################
 # update-changelog.sh
-# Created on 03/27/2025
+# Created on 06/12/2025
 #
 # Copyright (C) 2025 Mehmet Bertan Tarakcioglu, Under the MIT License
 #
