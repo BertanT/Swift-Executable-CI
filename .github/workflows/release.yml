@@ -110,7 +110,7 @@ jobs:
         run: ci-scripts-${{ github.run_id }}/pack-builds.sh
 
       - name: Updating the changelog and preparing release notes.
-        if: ${{ inputs.update-changelog }}
+        if: ${{ inputs.update_changelog }}
         run: ci-scripts-${{ github.run_id }}/prep-release-notes.sh
 
       - name: Pushing the latest changes and the new tag to the repository.

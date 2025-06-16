@@ -18,5 +18,5 @@ set -eo pipefail
 if swift package plugin --list | grep -q "\‘swiftlint\’ (plugin \‘SwiftLintCommandPlugin\’ in package \‘SwiftLintPlugins\’)"; then
     swift package plugin --allow-writing-to-package-directory swiftlint lint --progress
 else
-    echo "Warning: The Swiftlint build tool plugin is not a depnedency of this swift target. Skipped linting."
+    echo "Warning: The SwiftLint build tool plugin was not found in your project. Skipping..."
 fi
