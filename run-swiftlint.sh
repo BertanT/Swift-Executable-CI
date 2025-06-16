@@ -1,6 +1,6 @@
 #!/bin/bash
 #################################################################################################################################
-# run-swiftliny.sh
+# run-swiftlint.sh
 # Created on 06/16/2025
 #
 # Copyright (C) 2025 Mehmet Bertan Tarakcioglu, Under the MIT License

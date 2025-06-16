@@ -85,7 +85,7 @@ jobs:
         run: ci-scripts-${{ github.run_id }}/setup-swift.sh
       
       - name: Linting code with SwiftLint.
-        if: ${{ inputs.run-swiftlint }}
+        if: ${{ inputs.run_swiftlint }}
         run: ci-scripts-${{ github.run_id }}/run-swiftlint.sh
 
       - name: Installing the static Swift SDK for Linux.
