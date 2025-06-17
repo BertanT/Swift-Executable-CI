@@ -6,7 +6,7 @@
 # Copyright (C) 2025 Mehmet Bertan Tarakcioglu, Under the MIT License
 #
 # This file was originally created as part of the WatchDuck project CI Pipeline.
-#############################################################################################################################################################################################################
+##################################################################################################################################
 
 # This script is meant to run on a GitHub macOS Action Runner as part of the SwiftPM-Cross-Comp-CI workflows!
 # It assumes to be part of the workflow and may fail if it is being run by itself.
@@ -25,6 +25,68 @@ CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
 # Check if a CHANGELOG file exists
 if [ -z "$CHANGELOG_FILE" ]; then
     echo "No CHANGELOG file found."
+    exit 0
+fi
+
+# Check the changelog title
+if ! grep -q "# Changelog" "$CHANGELOG_FILE" && ! grep -q "# Change Log" "$CHANGELOG_FILE" && ! head -n 5 "$CHANGELOG_FILE" | grep -q -i "changelog"; then
+    echo "Warning: The changelog doesn't appear to follow the Keep a Changelog format. It should have a # Changelog file at the top in markdown format. Skipping changelog update."
+    echo ""
+    exit 0
+fi
+
+# Check the link reference for the unreleased title section
+if ! grep -q "\[unreleased\]:" "$CHANGELOG_FILE"; then
+    echo "Warning: The changelog doesn't have an [unreleased] link reference section. Skipping changelog update."
+    exit 0
+fi
+
+# Check that there is exactly one Unreleased section
+UNRELEASED_COUNT=$(grep -c "## \[Unreleased\]" "$CHANGELOG_FILE")
+if [ "$UNRELEASED_COUNT" -eq 0 ]; then
+    echo "Warning: No '## [Unreleased]' section found in the changelog. Skipping changelog update."
+    exit 0
+elif [ "$UNRELEASED_COUNT" -gt 1 ]; then
+    echo "Warning: Multiple '## [Unreleased]' sections found in the changelog. Skipping changelog update."
+    exit 0
+fi
+
+# Check that all release dates follow the YYYY-MM-DD format
+INVALID_DATES=$(grep -E "^## \[[^]]+\] - " "$CHANGELOG_FILE" | grep -v -E "^## \[Unreleased\]" | grep -v -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$")
+if [ -n "$INVALID_DATES" ]; then
+    echo "Error: Found release entries with invalid date format. Keep a Changelog requires YYYY-MM-DD format. Skipping changelog update."
+    echo "Invalid entries:"
+    echo "$INVALID_DATES"
+    exit 0
+fi
+
+# Check for duplicate release entries
+DUPLICATE_RELEASES=$(grep -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" | sort | uniq -d)
+if [ -n "$DUPLICATE_RELEASES" ]; then
+    echo "Warning: Found duplicate release entries in the changelog. Each release should be unique. Skipping changelog update."
+    echo "Duplicate entries:"
+    echo "$DUPLICATE_RELEASES"
+    exit 0
+fi
+
+
+# Check that all release title have link references at the bottom
+RELEASE_TAGS=$(grep -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" | grep -v "Unreleased" | grep -o -E "\[[^]]+\]" | sed 's/\[//;s/\]//')
+LINK_REFS=$(grep -E "^\[[^]]+\]:" "$CHANGELOG_FILE" | grep -o -E "\[[^]]+\]" | sed 's/\[//;s/\]//')
+MISSING_LINKS=()
+
+for tag in $RELEASE_TAGS; do
+    if ! echo "$LINK_REFS" | grep -q "^${tag}$"; then
+        MISSING_LINKS+=("$tag")
+    fi
+done
+
+if [ ${#MISSING_LINKS[@]} -gt 0 ]; then
+    echo "Warning: Found release titles without link references. Skipping changelog update."
+    echo "Titles without links:"
+    for tag in "${MISSING_LINKS[@]}"; do
+        echo "  - $tag"
+    done
     exit 0
 fi
 
