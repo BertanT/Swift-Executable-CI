@@ -50,3 +50,7 @@ for file in *; do
     fi
 done
 cd -
+
+# Touch the release notes file, this is required even without a changelog since the release action expects a file input.
+# This simpler solution than intordutcing complex conditional changes to the workflow yaml files.
+echo -e "## Release Notes" > "release-notes-${GITHUB_RUN_ID}.md"
