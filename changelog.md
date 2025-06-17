@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+* Something something new feature something.
+
+### Removed
+* Nothing really.
+
+### Added
 * Localization of all dates to the user's browser locale with JavaScript.
 
 ## [0.1.2] - 2025-03-28
@@ -15,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 * Moved CI release action into a reusable workflow in another repository: https://github.com/BertanT/SwiftPM-Cross-Comp-CI.
 
-### Securit
+### Security
 * Sanitizing CI inputs.
 
 ## [0.1.2] - 2025-03-28
