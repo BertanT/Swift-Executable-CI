@@ -24,7 +24,7 @@ CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
 
 # Check if a CHANGELOG file exists
 if [ -z "$CHANGELOG_FILE" ]; then
-    echo "No CHANGELOG file found."
+    echo "Warning: No CHANGELOG file found. Skipping changelog update."
     exit 0
 fi
 
@@ -42,7 +42,7 @@ if ! grep -q "\[unreleased\]:" "$CHANGELOG_FILE"; then
 fi
 
 # Check that there is exactly one Unreleased section
-UNRELEASED_COUNT=$(grep -c "## \[Unreleased\]" "$CHANGELOG_FILE")
+UNRELEASED_COUNT=$(grep -c "## \[Unreleased\]" "$CHANGELOG_FILE" || true)
 if [ "$UNRELEASED_COUNT" -eq 0 ]; then
     echo "Warning: No '## [Unreleased]' section found in the changelog. Skipping changelog update."
     exit 0
@@ -52,7 +52,7 @@ elif [ "$UNRELEASED_COUNT" -gt 1 ]; then
 fi
 
 # Check that all release dates follow the YYYY-MM-DD format
-INVALID_DATES=$(grep -E "^## \[[^]]+\] - " "$CHANGELOG_FILE" | grep -v -E "^## \[Unreleased\]" | grep -v -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$")
+INVALID_DATES=$(grep -E "^## \[[^]]+\] - " "$CHANGELOG_FILE" | grep -v -E "^## \[Unreleased\]" | grep -v -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" || true)
 if [ -n "$INVALID_DATES" ]; then
     echo "Error: Found release entries with invalid date format. Keep a Changelog requires YYYY-MM-DD format. Skipping changelog update."
     echo "Invalid entries:"
@@ -61,7 +61,7 @@ if [ -n "$INVALID_DATES" ]; then
 fi
 
 # Check for duplicate release entries
-DUPLICATE_RELEASES=$(grep -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" | sort | uniq -d)
+DUPLICATE_RELEASES=$(grep -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" | sort | uniq -d || true)
 if [ -n "$DUPLICATE_RELEASES" ]; then
     echo "Warning: Found duplicate release entries in the changelog. Each release should be unique. Skipping changelog update."
     echo "Duplicate entries:"
@@ -69,10 +69,9 @@ if [ -n "$DUPLICATE_RELEASES" ]; then
     exit 0
 fi
 
-
 # Check that all release title have link references at the bottom
-RELEASE_TAGS=$(grep -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" | grep -v "Unreleased" | grep -o -E "\[[^]]+\]" | sed 's/\[//;s/\]//')
-LINK_REFS=$(grep -E "^\[[^]]+\]:" "$CHANGELOG_FILE" | grep -o -E "\[[^]]+\]" | sed 's/\[//;s/\]//')
+RELEASE_TAGS=$(grep -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" | grep -v "Unreleased" | grep -o -E "\[[^]]+\]" | sed 's/\[//;s/\]//' || true)
+LINK_REFS=$(grep -E "^\[[^]]+\]:" "$CHANGELOG_FILE" | grep -o -E "\[[^]]+\]" | sed 's/\[//;s/\]//' || true)
 MISSING_LINKS=()
 
 for tag in $RELEASE_TAGS; do
@@ -120,5 +119,4 @@ sed -i '' "s|\[unreleased\]: .*|[unreleased]: ${REPO_URL}/compare/${NEW_TAG}...H
 echo -e "\n${released_tag}" >> "$CHANGELOG_FILE"
 
 # Extract release notes from the changelog and put them into a temporary markdown file
-echo -e "## Release Notes" > "release-notes-${GITHUB_RUN_ID}.md"
 awk "/## \\[${NEW_TAG}\\]/{flag=1;next} /## \\[/&&flag{flag=0} flag" "$CHANGELOG_FILE" | sed '/^\[.*\]: /d' >> "release-notes-${GITHUB_RUN_ID}.md"
