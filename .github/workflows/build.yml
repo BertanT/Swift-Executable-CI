@@ -33,7 +33,7 @@ on:
         type: boolean
         required: false
         default: false
-        description: "If true, the workflow will run SwiftLint before building. Make sure you have the SwiftLint command tool plugin installed!"
+        description: "Run SwiftLint before building if the pre-build plugin is a dependency. Make sure you have the SwiftLint plugin added to your Package.swift file!"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
