@@ -75,7 +75,7 @@ jobs:
           repository: BertanT/Swift-Executable-CI
           ref: main
           path: ci-scripts-${{ github.run_id }}
-          sparse-checkout: 'Scripts/*.sh'
+          sparse-checkout: '*.sh'
           sparse-checkout-cone-mode: false
 
       - name: Validating repository variables.
