@@ -9,7 +9,7 @@
 
 # Part of the Swift-Executable-CI pipeline.
 
-# This workflow is used to only  build your Swift Executable for macOS and Linux for testing.
+# This workflow is used to only build your Swift Executable for macOS and Linux for testing.
 # It is recommended to run this on pushes to main!
 
 name: Build

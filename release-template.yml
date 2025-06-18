@@ -27,15 +27,15 @@ on:
         type: boolean
         required: true
         default: true
-        description: "Auto-prepere release notes and update the changelog. Overridden if repo variable is false."
+        description: "Auto-prepare release notes and update the changelog. Overridden if repo variable is false."
 
 jobs:
   call-release:
     uses: BertanT/Swift-Executable-CI/.github/workflows/release.yml@main
     with:
       version: ${{ inputs.version }}
-      exec_name: ${{ vars.EXEC_NAME}}
-      swift_toolchain_version: ${{ vars.SWIFT_TOOLCHAIN_VERSION}}
+      exec_name: ${{ vars.EXEC_NAME }}
+      swift_toolchain_version: ${{ vars.SWIFT_TOOLCHAIN_VERSION }}
       linux_sdk_url: ${{ vars.LINUX_SDK_URL }}
       linux_sdk_checksum: ${{ vars.LINUX_SDK_CHECKSUM }}
       run_swiftlint: ${{ (inputs.run_swiftlint || true) && vars.RELEASE_RUN_SWIFTLINT != 'false' }}
