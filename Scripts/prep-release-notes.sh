@@ -31,7 +31,6 @@ fi
 # Check the changelog title
 if ! grep -q "# Changelog" "$CHANGELOG_FILE" && ! grep -q "# Change Log" "$CHANGELOG_FILE" && ! head -n 5 "$CHANGELOG_FILE" | grep -q -i "changelog"; then
     echo "Warning: The changelog doesn't appear to follow the Keep a Changelog format. It should have a # Changelog file at the top in markdown format. Skipping changelog update."
-    echo ""
     exit 0
 fi
 
@@ -66,6 +65,15 @@ if [ -n "$DUPLICATE_RELEASES" ]; then
     echo "Warning: Found duplicate release entries in the changelog. Each release should be unique. Skipping changelog update."
     echo "Duplicate entries:"
     echo "$DUPLICATE_RELEASES"
+    exit 0
+fi
+
+# Check for empty tag titles (e.g., ## [] - YYYY-MM-DD)
+EMPTY_TAGS=$(grep -E "^## \[\s*\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" "$CHANGELOG_FILE" || true)
+if [ -n "$EMPTY_TAGS" ]; then
+    echo "Warning: Found empty tag titles in the changelog. Tag titles must not be empty. Skipping changelog update."
+    echo "Empty tag entries:"
+    echo "$EMPTY_TAGS"
     exit 0
 fi
 
