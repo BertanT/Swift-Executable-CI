@@ -63,6 +63,8 @@ jobs:
           path: ci-scripts-${{ github.run_id }}/Scripts
           sparse-checkout: 'Scripts/*.sh'
           sparse-checkout-cone-mode: false
+      - name: Some debug thing
+        run: ls -la ci-scripts-${{ github.run_id }}/Scripts
 
       - name: Validating repository variables.
         run: ci-scripts-${{ github.run_id }}/Scripts/validate-inputs-build.sh
