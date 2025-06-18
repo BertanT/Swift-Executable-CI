@@ -60,21 +60,19 @@ jobs:
         with:
           repository: BertanT/Swift-Executable-CI
           ref: main
-          path: ci-scripts-${{ github.run_id }}/Scripts
+          path: ci-scripts-${{ github.run_id }}
           sparse-checkout: 'Scripts/*.sh'
           sparse-checkout-cone-mode: false
-      - name: Some debug thing
-        run: ls -la ci-scripts-${{ github.run_id }}/Scripts
 
       - name: Validating repository variables.
-        run: ci-scripts-${{ github.run_id }}/Scripts/validate-inputs-build.sh
+        run: ci-scripts-${{ github.run_id }}/validate-inputs-build.sh
 
       - name: Setting up Swift Toolchain Version ${{ env.SWIFT_TOOLCHAIN_VERSION }}.
-        run: ci-scripts-${{ github.run_id }}/Scripts/setup-swift.sh
+        run: ci-scripts-${{ github.run_id }}/setup-swift.sh
 
       - name: Linting code with SwiftLint.
         if: ${{ inputs.run_swiftlint }}
-        run: ci-scripts-${{ github.run_id }}/Scripts/run-swiftlint.sh
+        run: ci-scripts-${{ github.run_id }}/run-swiftlint.sh
 
       - name: Installing the static Swift SDK for Linux.
         run: swift sdk install $LINUX_SDK_URL --checksum $LINUX_SDK_CHECKSUM
