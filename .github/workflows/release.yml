@@ -7,7 +7,7 @@
 # This file was originally created as part of the WatchDuck project CI Pipeline.
 #################################################################################################################################
 
-# Part of the SwiftPM-Cross-Comp-CI pipeline.
+# Part of the Swift-Executable-CI pipeline.
 
 # This workflow is used to create a new release of your Swift Executable given a new version tag input.
 
@@ -72,10 +72,10 @@ jobs:
       - name: Fetch script dependencies.
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          repository: BertanT/SwiftPM-Cross-Comp-CI
+          repository: BertanT/Swift-Executable-CI
           ref: main
           path: ci-scripts-${{ github.run_id }}
-          sparse-checkout: '*.sh'
+          sparse-checkout: 'Scripts/*.sh'
           sparse-checkout-cone-mode: false
 
       - name: Validating repository variables.

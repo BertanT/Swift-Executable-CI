@@ -10,7 +10,7 @@
 
 # !!!!!!!!!! Only use this for the build workflow !!!!!!!!!!
 
-# This script is meant to run on a GitHub macOS Action Runner as part of the SwiftPM-Cross-Comp-CI workflows!
+# This script is meant to run on a GitHub macOS Action Runner as part of the Swift-Executable-CI workflows!
 # It assumes to be part of the workflow and may fail if it is being run by itself.
 
 # This script validates and sanitizes the inputs for the workflow to harden against malicious input.

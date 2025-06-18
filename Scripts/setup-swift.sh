@@ -8,7 +8,7 @@
 # This file was originally created as part of the WatchDuck project CI Pipeline.
 #################################################################################################################################
 
-# This script is meant to run on a GitHub macOS Action Runner as part of the SwiftPM-Cross-Comp-CI workflows!
+# This script is meant to run on a GitHub macOS Action Runner as part of the Swift-Executable-CI workflows!
 # It assumes to be part of the workflow and may fail if it is being run by itself.
 
 # This script will install Swiftly and set up the correct version of Swift requested by the repository workflow variables.

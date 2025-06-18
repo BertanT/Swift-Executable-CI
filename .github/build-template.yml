@@ -1,0 +1,36 @@
+#################################################################################################################################
+# build-template.yml
+# Created on 03/27/2025
+#
+# Copyright (C) 2025 Mehmet Bertan Tarakcioglu, Under the MIT License
+#
+# This file was originally created as part of the WatchDuck project CI Pipeline.
+#################################################################################################################################
+
+# Recommended usage of the reusable build workflow provided by BertantT/Swift-Executable-CI.
+
+name: Build main
+
+on:
+    push:
+      branches:
+        - main
+    pull_request:
+        paths:
+        - "**/*.swift"
+    merge_group:
+    workflow_dispatch:
+        inputs:
+          run_swiftlint:
+            type: boolean
+            required: true
+            default: true
+            description: "Run SwiftLint before building. Overridden if repo variable is false."
+jobs:
+  call-build:
+    uses: BertanT/Swift-Executable-CI/.github/workflows/build.yml@main
+    with:
+      swift_toolchain_version: ${{ vars.SWIFT_TOOLCHAIN_VERSION}}
+      linux_sdk_url: ${{ vars.LINUX_SDK_URL }}
+      linux_sdk_checksum: ${{ vars.LINUX_SDK_CHECKSUM }}
+      run_swiftlint: ${{ (inputs.run_swiftlint || true) && vars.BUILD_RUN_SWIFTLINT != 'false' }}
