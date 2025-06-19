@@ -23,6 +23,12 @@ if [[ -z "${SWIFT_TOOLCHAIN_VERSION:-}" || -z "${LINUX_SDK_URL:-}" ]]; then
   exit 1
 fi
 
+# Ensure the Swift toolchain version is in x.x.x format
+if [[ ! "${SWIFT_TOOLCHAIN_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "Invalid format: SWIFT_TOOLCHAIN_VERSION must be in X.X.X format (e.g., 6.2.0)"
+  exit 1
+fi
+
 # Check for URL safety
 if [[ ! "${LINUX_SDK_URL}" =~ ^https?://[a-zA-Z0-9.-]+(:[0-9]+)?(/.*)?$ ]]; then
   echo "Invalid SDK URL"
@@ -37,8 +43,20 @@ if [[ "${DOMAIN}" != "swift.org" && ! "${DOMAIN}" =~ \.swift\.org$ ]]; then
   exit 1
 fi
 
+# Shorten the Swift toolchain version by removing trailing zeroes
+IFS='.' read -ra VERSION_PARTS <<< "${SWIFT_TOOLCHAIN_VERSION}"
+# Remove trailing zeroes
+for (( idx=${#VERSION_PARTS[@]}-1; idx>0; idx-- )); do
+  if [[ "${VERSION_PARTS[idx]}" == "0" ]]; then
+    unset 'VERSION_PARTS[idx]'
+  else
+    break
+  fi
+done
+SHORT_SWIFT_TOOLCHAIN_VERSION=$(IFS=.; echo "${VERSION_PARTS[*]}")
+
 # Validate Swift version in SDK URL
-SDK_VERSION_PATTERN=$(printf '%s' "${SWIFT_TOOLCHAIN_VERSION}" | sed 's/[.]/\\./g')
+SDK_VERSION_PATTERN=$(printf '%s' "${SHORT_SWIFT_TOOLCHAIN_VERSION}" | sed 's/[.]/\\./g')
 if ! echo "${LINUX_SDK_URL}" | grep -q -E "${SDK_VERSION_PATTERN}"; then
   echo "The Swift version in the Linux Statick SDK does not match the provided Swift toolchain version for Swift Setup!"
   exit 1
