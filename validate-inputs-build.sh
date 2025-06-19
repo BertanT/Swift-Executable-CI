@@ -31,7 +31,7 @@ fi
 
 # Check for URL safety
 if [[ ! "${LINUX_SDK_URL}" =~ ^https?://[a-zA-Z0-9.-]+(:[0-9]+)?(/.*)?$ ]]; then
-  echo "Invalid SDK URL"
+  echo "Invalid LINUX_SDK_URL. Make sure it is a valid URL"
   exit 1
 fi
 
@@ -39,7 +39,7 @@ fi
 DOMAIN=$(echo "${LINUX_SDK_URL}" | awk -F/ '{print $3}')
 
 if [[ "${DOMAIN}" != "swift.org" && ! "${DOMAIN}" =~ \.swift\.org$ ]]; then
-  echo "Untrusted domain: ${DOMAIN}"
+  echo "Untrusted domain: ${DOMAIN}. LINUX_SDK_URL must only point to swift.org."
   exit 1
 fi
 
@@ -56,7 +56,7 @@ done
 SHORT_SWIFT_TOOLCHAIN_VERSION=$(IFS=.; echo "${VERSION_PARTS[*]}")
 
 # Validate Swift version in SDK URL
-SDK_VERSION_PATTERN=$(printf '%s' "${SHORT_SWIFT_TOOLCHAIN_VERSION}" | sed 's/[.]/\\./g')
+SDK_VERSION_PATTERN=$(printf '%s' "${SHORT_SWIFT_TOOLCHAIN_VERSION}" | sed 's/\./\\./g')
 if ! echo "${LINUX_SDK_URL}" | grep -q -E "${SDK_VERSION_PATTERN}"; then
   echo "The Swift version in the Linux Statick SDK does not match the provided Swift toolchain version for Swift Setup!"
   exit 1
