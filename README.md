@@ -8,7 +8,7 @@ Originally built for the [WatchDuck](https://github.com/BertanT/WatchDuck) proje
 * Seamless release workflow with customizable release tags.
 * Cross-compiles macOS and Linux binaries on a macOS Action Runner.
 * Statically links Linux binaries and creates universal binaries for macOS.
-* Creates tarballs for the builds along with a SHA256 hash file for each.
+* Creates tarballs for the build aritifacts including the *Bundle* of the Swift Project, along with SHA256 hash file for each.
 * Runs SwiftLint on your project if its pre-build plugin is set up in your project.
 * Follows the [Keep a Changelog](https://keepachangelog.com) format to automatically generate release notes and update the Changelog links with new releases.
 * Customizable Swift Toolchain and Static Linux SDK versions.
