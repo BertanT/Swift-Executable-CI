@@ -31,7 +31,7 @@ on:
 
 jobs:
   call-release:
-    uses: BertanT/Swift-Executable-CI/.github/workflows/release.yml@c4d02b9bbda03f65d4251a8d10979e060d40c2e9
+    uses: BertanT/Swift-Executable-CI/.github/workflows/release.yml@5576c29badd4468c399b07cac5629b102d8a25ff
     with:
       version: ${{ inputs.version }}
       exec_name: ${{ vars.EXEC_NAME }}
