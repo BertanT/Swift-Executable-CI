@@ -4,9 +4,10 @@ An extensive GitHub Workflow CI pipeline to cross-compile, lint, validate, hash,
 Originally built for the [WatchDuck](https://github.com/BertanT/WatchDuck) project, I am releasing it as a reusable workflow for everyone!
 
 ## 🌈 Features
+* Automatic builds on pushes to `main`, pull requests, and manual trigger.
+* Seamless release workflow with customizable release tags.
 * Cross-compiles macOS and Linux binaries on a macOS Action Runner.
-* Statically links Linux binaries.
-* Creates universal binaries for macOS.
+* Statically links Linux binaries and creates universal binaries for macOS.
 * Creates tarballs for the builds along with a SHA256 hash file for each.
 * Runs SwiftLint on your project if its pre-build plugin is set up in your project.
 * Follows the [Keep a Changelog](https://keepachangelog.com) format to automatically generate release notes and update the Changelog links with new releases.
@@ -25,6 +26,8 @@ Originally built for the [WatchDuck](https://github.com/BertanT/WatchDuck) proje
     * **`RELEASE_RUN_SWIFTLINT`:** Optional. Same functionality as `BUILD_RUN_SWIFTLINT`, but for the release workflow!
     * **`UPDATE_CHANGELOG`:** Optional. By default, the release workflow will try to auto-generate release notes and update your Changelog file, if you have one. Any file named `Changelog`, case insensitive, with any extension will work. **The only supported format is from [Keep a Changelog](https://keepachangelog.com).** If you have a Changelog file but do not follow this format, please disable it to avoid potential issues, despite the CI explicitly checking for correct formatting before modifying files. If you wish to disable this and override the enabled state when manually triggering the workflow, add this variable and set it to `false` (case sensitive).
 * Go to your repository settings, click on the *"Actions"* tab, then click on *"General"* underneath. Scroll down to the *"Workflow permissions"* section, and select the *"Read and write permissions"* option. This is required for the CI to be able to create releases and update the Changelog file.
+
+**Note:** If you are using SwiftLint, make sure to configure your `.swiftlint.yml` file to exclude the `.build` directory of your project, since package dependencies are checked out there. This usually isn't a problem while using Xcode, but it can cause issues in the CI environmnet or the CLI.
 
 ## 🚀 Usage
 Once the setup is complete using the default templates, the `build` workflow will automatically build your executable for macOS and Linux (on ARM64 and x86_64 architectures for each) whenever there is a push to the `main` branch, a pull request is opened, or a manual trigger from the *Actions* tab on your repository home page.
