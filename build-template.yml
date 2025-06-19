@@ -33,4 +33,4 @@ jobs:
       swift_toolchain_version: ${{ vars.SWIFT_TOOLCHAIN_VERSION }}
       linux_sdk_url: ${{ vars.LINUX_SDK_URL }}
       linux_sdk_checksum: ${{ vars.LINUX_SDK_CHECKSUM }}
-      run_swiftlint: ${{ (inputs.run_swiftlint || true) && vars.BUILD_RUN_SWIFTLINT != 'false' }}
+      run_swiftlint: ${{ vars.BUILD_RUN_SWIFTLINT != 'false' && (github.event_name != 'workflow_dispatch' || inputs.run_swiftlint) }}
