@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: BertanT/Swift-Executable-CI
-          ref: 4af54908f897cf414232ab79e02088e5471e91c5
+          ref: 5def7268ed3aff4a14b6aadc92e1d57dac57bb0d
           path: ci-scripts-${{ github.run_id }}
           sparse-checkout: '*.sh'
           sparse-checkout-cone-mode: false
