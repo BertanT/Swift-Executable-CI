@@ -37,7 +37,7 @@ else
         # Use the API here so the commit and push is signed by GitHub
         gh api --method PUT /repos/"${REPO_PATH}"/contents/"${CHANGELOG_FILE}" \
           --field message="Update changelog for release ${NEW_TAG}" \
-          --field content="$( base64 -w 0 "${CHANGELOG_FILE}" )" \
+          --field content="$( base64 -w 0 -i "${CHANGELOG_FILE}" )" \
           --field encoding="base64" \
           --field branch="${TARGET_BRANCH}" \
           --field sha="$( git rev-parse "${TARGET_BRANCH}":"${CHANGELOG_FILE}" )"
