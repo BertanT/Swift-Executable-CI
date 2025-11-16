@@ -21,17 +21,30 @@ set -eo pipefail
 git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-# Commit and push the changes to the changelog if it exists
-if find . -maxdepth 1 -type f -iname "changelog*" | grep -q .; then
-  # Found at least one changelog file
-  find . -maxdepth 1 -type f -iname "changelog*" | xargs git add
+# Try and find a changelog file in the repo
+CHANGELOG_FILE=$(find . -maxdepth 1 -type f -iname "changelog*" | head -1)
+MATCH_COUNT=$(echo "${CHANGELOG_FILE}" | wc -l | xargs)
 
-    # Only commit if there are actualy changes!
+# Make sure there is only one
+if [[ "${MATCH_COUNT}" -lt 1 ]]; then
+    echo "Warning: No CHANGELOG file found! Skipping commit."
+elif [[ "${MATCH_COUNT}" -gt 1 ]]; then
+    echo "Warning: More than one CHANGELOG file found! Skipping commit."
+else
+    git add "${CHANGELOG_FILE}"
+    # Make sure the changelog file actually has changes to commit...
     if ! git diff --cached --quiet; then
-        git commit -m "Update changelog for release ${NEW_TAG}"
-        git push --atomic origin "HEAD:${TARGET_BRANCH}"
+        # Use the API here so the commit and push is signed by GitHub
+        gh api --method PUT /repos/"${REPO_PATH}"/contents/"${CHANGELOG_FILE}" \
+          --field message="Update changelog for release ${NEW_TAG}" \
+          --field content="$( base64 -w 0 "${CHANGELOG_FILE}" )" \
+          --field encoding="base64" \
+          --field branch="${TARGET_BRANCH}" \
+          --field sha="$( git rev-parse "${TARGET_BRANCH}":"${CHANGELOG_FILE}" )"
+    else
+        echo "Warning: No changes found in the CHANGELOG file! Skipping commit."
     fi
-fi 
+fi
 
 # Create and push the new tag
 git tag "${NEW_TAG}"

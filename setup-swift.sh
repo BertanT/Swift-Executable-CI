@@ -22,8 +22,8 @@ installer -pkg swiftly.pkg -target CurrentUserHomeDirectory
 ~/.swiftly/bin/swiftly init --assume-yes --skip-install --quiet-shell-followup
 source ~/.swiftly/env.sh
 
-echo "SWIFTLY_HOME_DIR=${SWIFTLY_HOME_DIR}" >>"${GITHUB_ENV}"
-echo "SWIFTLY_BIN_DIR=${SWIFTLY_BIN_DIR}" >>"${GITHUB_ENV}"
+echo "SWIFTLY_HOME_DIR="${SWIFTLY_HOME_DIR}"" >>"${GITHUB_ENV}"
+echo "SWIFTLY_BIN_DIR="${SWIFTLY_BIN_DIR}"" >>"${GITHUB_ENV}"
 echo "${SWIFTLY_BIN_DIR}" >>"${GITHUB_PATH}"
 
 hash -r

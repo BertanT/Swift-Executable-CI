@@ -20,8 +20,8 @@ set -eo pipefail
 mkdir -p ".build/macos-universal/release"
 
 # Create universal binary
-lipo -create ".build/arm64-apple-macosx/release/${EXEC_NAME}" ".build/x86_64-apple-macosx/release/${EXEC_NAME}" \
-    -output ".build/macos-universal/release/${EXEC_NAME}"
+lipo -create ".build/arm64-apple-macosx/release/"${EXEC_NAME}"" ".build/x86_64-apple-macosx/release/"${EXEC_NAME}"" \
+    -output ".build/macos-universal/release/"${EXEC_NAME}""
 
 # Copy the universal binary and its bundle to its new home!
 if [ -n "$(find .build/arm64-apple-macosx/release/ -name '*.bundle' 2>/dev/null)" ]; then
