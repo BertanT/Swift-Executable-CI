@@ -28,7 +28,7 @@ on:
             description: "Run SwiftLint before building. Overridden if repo variable is false."
 jobs:
   call-build:
-    uses: BertanT/Swift-Executable-CI/.github/workflows/build.yml@5576c29badd4468c399b07cac5629b102d8a25ff
+    uses: BertanT/Swift-Executable-CI/.github/workflows/build.yml@ebe8abd9a650c65541bf5893509594c047f74584
     with:
       swift_toolchain_version: ${{ vars.SWIFT_TOOLCHAIN_VERSION }}
       linux_sdk_url: ${{ vars.LINUX_SDK_URL }}
