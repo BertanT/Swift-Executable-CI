@@ -40,6 +40,7 @@ on:
         type: string
         required: false
         default: ""
+        description: "The name of this release to be shown on GitHub. Defaults to the new tag."
       make_latest:
         type: boolean
         required: false

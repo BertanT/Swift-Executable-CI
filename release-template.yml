@@ -22,16 +22,17 @@ on:
         type: string
         required: false
         default: ""
+        description: "Release name for GitHub. Defaults to the new tag."
       make_latest:
         type: boolean
         required: true
         default: true
-        description: "Explicitly marks this release as the latest version."
+        description: "Make this release the latest."
       prerelease:
         type: boolean
         required: true
         default: false
-        description: "Marks this release as a prerelease."
+        description: "Mark this release as a pre-release."
       run_swiftlint:
         type: boolean
         required: true
