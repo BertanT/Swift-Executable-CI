@@ -34,6 +34,12 @@ if [[ "${MATCH_COUNT}" -gt 1 ]]; then
     exit 0
 fi
 
+# Clean trailing tabs and spaces
+sed -i '' 's/[[:space:]]*$//' "$CHANGELOG_FILE"
+
+# Clean extra and fix missing spaces betwwen title hash marks and title text
+sed -i '' -E 's/^(#{1,6})[[:space:]]*/\1 /' "$CHANGELOG_FILE"
+
 # Check the changelog title
 if ! grep -q "# Changelog" "${CHANGELOG_FILE}" && ! grep -q "# Change Log" "${CHANGELOG_FILE}" && ! head -n 5 "${CHANGELOG_FILE}" | grep -q -i "changelog"; then
     echo "Warning: The changelog doesn't appear to follow the Keep a Changelog format. It should have a # Changelog file at the top in markdown format. Skipping changelog update."
@@ -57,7 +63,7 @@ elif [ "${UNRELEASED_COUNT}" -gt 1 ]; then
 fi
 
 # Check that all release dates follow the YYYY-MM-DD format
-INVALID_DATES=$(grep -E "^## \[[^]]+\] - " "${CHANGELOG_FILE}" | grep -v -E "^## \[Unreleased\]" | grep -v -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$" || true)
+INVALID_DATES=$(grep -E "^## \[[^]]+\] - " "${CHANGELOG_FILE}" | grep -v -E "^## \[Unreleased\][[:space:]]*$" | grep -v -E "^## \[[^]]+\] - [0-9]{4}-[0-9]{2}-[0-9]{2}[[:space:]]*$" || true)
 if [ -n "${INVALID_DATES}" ]; then
     echo "Error: Found release entries with invalid date format. Keep a Changelog requires YYYY-MM-DD format. Skipping changelog update."
     echo "Invalid entries:"

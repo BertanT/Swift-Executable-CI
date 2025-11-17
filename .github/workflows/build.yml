@@ -52,11 +52,11 @@ jobs:
       LINUX_SDK_CHECKSUM: ${{ inputs.linux_sdk_checksum }}
     steps:
       - name: Cloning repository.
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 0
       - name: Fetch script dependencies.
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           repository: BertanT/Swift-Executable-CI
           ref: 08dcb19fb57e20d9333e18a2ee3d5b640a344346
